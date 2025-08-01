@@ -1,10 +1,11 @@
 
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Pesquisa de Códigos</title>
-  <style>
+<meta charset="utf-8"/>
+<title>Pesquisa de Códigos</title>
+<style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -40,15 +41,14 @@
   </style>
 </head>
 <body>
-  <h1>Pesquisa de Códigos</h1>
-  <form id="searchForm">
-    <input type="text" id="search" placeholder="Digite o código..." autocomplete="off">
-    <button type="submit">Buscar</button>
-  </form>
-  <div style="font-size:12px; color:#666; margin-top:8px;">Desenvolvido por Carlos Soares</div>
-  <div id="results"></div>
-
-  <script>const data = {
+<h1>Pesquisa de Códigos</h1>
+<form id="searchForm">
+<input autocomplete="off" id="search" placeholder="Digite o código..." type="text"/>
+<button type="submit">Buscar</button>
+</form>
+<div style="font-size:12px; color:#666; margin-top:8px;">Desenvolvido por Carlos Soares</div>
+<div id="results"></div>
+<script>const data = {
   "TBB1.0001.A01": {
     "maquina": "Transporte de garrafas",
     "linha": "9",
@@ -89104,22 +89104,8 @@
     "no": "0900155790"
   }
 }</script>
-  <script>
-    document.getElementById("search").addEventListener("input", function() {
-      const input = this.value.toUpperCase();
-      const suggestions = Object.keys(data).filter(k => k.includes(input));
-      this.setAttribute("list", "sugestoes");
 
-      let datalist = document.getElementById("sugestoes");
-      if (!datalist) {
-        datalist = document.createElement("datalist");
-        datalist.id = "sugestoes";
-        document.body.appendChild(datalist);
-      }
-      datalist.innerHTML = suggestions.slice(0, 20).map(s => `<option value="${s}">`).join("");
-    });
-  </script>
-  <script>
+<script>
     document.getElementById("searchForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const query = document.getElementById("search").value.trim().toUpperCase();

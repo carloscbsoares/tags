@@ -24,15 +24,17 @@
   </style>
 </head>
 <body>
-  <h1>Buscar Código</h1>
-  <form id="searchForm">
+  <h1 style="text-align:center;">Buscar Código</h1>
+  <form id="searchForm" style="display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;">
     <input type="text" id="search" placeholder="Digite o código" required />
     <button type="submit">Buscar</button>
   </form>
-  <div id="results"></div>
+  <div id="results" style="max-width:800px; margin:auto;"></div>
 
-  <!-- Scripts dos bancos -->
+  <!-- SIDEL -->
   <script src="banco_dados_sem_intermediaria.js"></script>
+
+  <!-- KRONES (40 arquivos) -->
   <script src="banco_dados_krones_parte01.js"></script>
   <script src="banco_dados_krones_parte02.js"></script>
   <script src="banco_dados_krones_parte03.js"></script>
@@ -53,31 +55,71 @@
   <script src="banco_dados_krones_parte18.js"></script>
   <script src="banco_dados_krones_parte19.js"></script>
   <script src="banco_dados_krones_parte20.js"></script>
+  <script src="banco_dados_krones_parte21.js"></script>
+  <script src="banco_dados_krones_parte22.js"></script>
+  <script src="banco_dados_krones_parte23.js"></script>
+  <script src="banco_dados_krones_parte24.js"></script>
+  <script src="banco_dados_krones_parte25.js"></script>
+  <script src="banco_dados_krones_parte26.js"></script>
+  <script src="banco_dados_krones_parte27.js"></script>
+  <script src="banco_dados_krones_parte28.js"></script>
+  <script src="banco_dados_krones_parte29.js"></script>
+  <script src="banco_dados_krones_parte30.js"></script>
+  <script src="banco_dados_krones_parte31.js"></script>
+  <script src="banco_dados_krones_parte32.js"></script>
+  <script src="banco_dados_krones_parte33.js"></script>
+  <script src="banco_dados_krones_parte34.js"></script>
+  <script src="banco_dados_krones_parte35.js"></script>
+  <script src="banco_dados_krones_parte36.js"></script>
+  <script src="banco_dados_krones_parte37.js"></script>
+  <script src="banco_dados_krones_parte38.js"></script>
+  <script src="banco_dados_krones_parte39.js"></script>
+  <script src="banco_dados_krones_parte40.js"></script>
 
   <!-- Unificação -->
   <script>
-    const dataKronesFinal = {
-      ...dataKrones,
-      ...dataKronesParte02,
-      ...dataKronesParte03,
-      ...dataKronesParte04,
-      ...dataKronesParte05,
-      ...dataKronesParte06,
-      ...dataKronesParte07,
-      ...dataKronesParte08,
-      ...dataKronesParte09,
-      ...dataKronesParte10,
-      ...dataKronesParte11,
-      ...dataKronesParte12,
-      ...dataKronesParte13,
-      ...dataKronesParte14,
-      ...dataKronesParte15,
-      ...dataKronesParte16,
-      ...dataKronesParte17,
-      ...dataKronesParte18,
-      ...dataKronesParte19,
-      ...dataKronesParte20
-    };
+  const dataKronesFinal = {
+    ...dataKronesParte01,
+    ...dataKronesParte02,
+    ...dataKronesParte03,
+    ...dataKronesParte04,
+    ...dataKronesParte05,
+    ...dataKronesParte06,
+    ...dataKronesParte07,
+    ...dataKronesParte08,
+    ...dataKronesParte09,
+    ...dataKronesParte10,
+    ...dataKronesParte11,
+    ...dataKronesParte12,
+    ...dataKronesParte13,
+    ...dataKronesParte14,
+    ...dataKronesParte15,
+    ...dataKronesParte16,
+    ...dataKronesParte17,
+    ...dataKronesParte18,
+    ...dataKronesParte19,
+    ...dataKronesParte20,
+    ...dataKronesParte21,
+    ...dataKronesParte22,
+    ...dataKronesParte23,
+    ...dataKronesParte24,
+    ...dataKronesParte25,
+    ...dataKronesParte26,
+    ...dataKronesParte27,
+    ...dataKronesParte28,
+    ...dataKronesParte29,
+    ...dataKronesParte30,
+    ...dataKronesParte31,
+    ...dataKronesParte32,
+    ...dataKronesParte33,
+    ...dataKronesParte34,
+    ...dataKronesParte35,
+    ...dataKronesParte36,
+    ...dataKronesParte37,
+    ...dataKronesParte38,
+    ...dataKronesParte39,
+    ...dataKronesParte40
+  };
   </script>
 
   <!-- Busca -->

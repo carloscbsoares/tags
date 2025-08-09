@@ -1,83 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Pesquisa de Códigos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Pesquisa de Códigos – KRONES + ELÉTRICO</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-      background-color: #f6f6f6;
+    :root{
+      --brand:#4d6eff;
+      --bg:#f6f6f6;
+      --card:#fff;
+      --text:#222;
+      --muted:#666;
+      --accent:#e8f1ff;
     }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 10px;
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:16px 16px 80px;
+      font-family: Arial, sans-serif; background:var(--bg); color:var(--text);
     }
-    #search {
-      padding: 10px;
-      width: 220px;
-      font-size: 16px;
+    header{ text-align:center; margin-top:6px; }
+    h1{ margin:0 0 8px; font-size:22px; }
+    .muted{ color:var(--muted); font-size:12px; margin-bottom:14px; }
+
+    form#searchForm{
+      display:flex; gap:10px; justify-content:center; align-items:center;
+      max-width:760px; margin:0 auto; flex-wrap:wrap;
     }
-    .checkbox-group {
-      margin-top: 10px;
+    form#searchForm .field{ flex:1 1 360px; min-width:240px; }
+    input#search{
+      width:100%; padding:12px 14px; font-size:16px; border-radius:8px;
+      border:1px solid #d9d9d9; outline:none;
     }
-    .checkbox-group label {
-      margin-right: 15px;
-      font-size: 14px;
+    button#submitBtn{
+      flex:0 0 auto; padding:12px 18px; font-size:16px; border:none; border-radius:8px;
+      background:var(--brand); color:#fff; cursor:pointer;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4d6eff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      margin-top: 10px;
-      cursor: pointer;
+    button#submitBtn:active{ transform:translateY(1px); }
+
+    #results{ margin:18px auto 0; max-width:960px; }
+    .card{
+      background:var(--card); border-radius:12px; padding:14px; margin:12px 0;
+      box-shadow:0 2px 10px rgba(0,0,0,.06);
     }
-    #results {
-      margin-top: 40px;
+    .dimomaint-box{
+      background:var(--accent); border-left:5px solid var(--brand);
+      padding:10px; margin:10px 0;
     }
-    .card {
-      border:1px solid #ddd;
-      background:#fff;
-      padding:20px;
-      width:400px;
-      margin:20px auto;
-      box-shadow:0 0 10px rgba(0,0,0,0.1);
-      border-radius:8px;
-      text-align:left;
+    .tag{ font-size:18px; margin:0 0 6px; }
+    .db-badge{ display:inline-block; font-size:11px; color:#fff; padding:2px 6px; border-radius:4px; margin-left:6px; vertical-align:middle; }
+    .krones{ background:#0a7c2f; }
+    .eletrico{ background:#6b21a8; }
+    .error{ color:#c00; text-align:center; }
+
+    footer{
+      position:fixed; left:0; right:0; bottom:0;
+      padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);
+      background:rgba(255,255,255,.96);
+      border-top:1px solid #eee;
+      text-align:center; font-size:12px; color:#444;
+      backdrop-filter: blur(6px);
     }
-    .dimomaint-box {
-      background:#e8f1ff;
-      border-left:5px solid #4d6eff;
-      padding:10px;
-      margin-bottom:15px;
+
+    @media (max-width:520px){
+      body{ padding:12px 12px 90px; }
+      h1{ font-size:20px; }
+      form#searchForm{ gap:8px; }
+      button#submitBtn{ width:100%; }
     }
   </style>
 </head>
 <body>
-  <h1>Pesquisa de Códigos</h1>
+  <header>
+    <h1>Pesquisa de Códigos</h1>
+    <div class="muted">KRONES (Ref. 10 dígitos) &middot; ELÉTRICO (ex.: TBB1.2220.B351)</div>
+  </header>
+
   <form id="searchForm">
-    <input type="text" id="search" placeholder="Digite o código (ex: tbb1.2104.b351)" autocomplete="off"><br>
-    <button type="submit">Buscar</button>
+    <div class="field">
+      <input type="text" id="search" placeholder="Digite a referência (KRONES) ou TAG (ELÉTRICO)" autocomplete="off" />
+    </div>
+    <button id="submitBtn" type="submit">Pesquisar</button>
   </form>
-  <div style="font-size:12px; color:#666; margin-top:8px;">Desenvolvido por Carlos Soares</div>
+
   <div id="results"></div>
 
-  <script src="banco_dados_sem_intermediaria.js">
-    function formatarTag(tag) {
-      // Ex: TBB12220B351 → TBB1.2220.B351
-      const match = tag.match(/^([A-Z]+\d)(\d{4})([A-Z]\d{2,3})$/);
-      if (!match) return tag;
-      return `${match[1]}.${match[2]}.${match[3]}`;
-    }
-    </script>
-    
+  <!-- Bancos de dados -->
+  <script src="banco_dados_sem_intermediaria.js"></script>
+  <script src="banco_dados_krones_completo.js"></script>
+  <!-- (opcional) usar as 40 partes em vez do completo -->
+  <!--
+  <script src="banco_dados_krones_parte01.js"></script>
+  ... (demais partes)
+  -->
   <script>
-    function normalizarEntrada(input) {
+    // Se estiver usando as 40 partes, unifique:
+    if (typeof dataKronesFinal === 'undefined') {
+      try {
+        const partes = [];
+        for (let i = 1; i <= 40; i++) {
+          const varName = 'dataKronesParte' + String(i).padStart(2, '0');
+          if (typeof window[varName] !== 'undefined') partes.push(window[varName]);
+        }
+        if (partes.length) {
+          window.dataKronesFinal = Object.assign({}, ...partes);
+        }
+      } catch (e) {
+        console.warn('Não foi possível unificar as partes KRONES:', e);
+      }
+    }
+
+    function formatarTag(tag) {
+      const m = tag.match(/^([A-Z]+\d)(\d{4})([A-Z]\d{2,3})$/);
+      if (!m) return tag;
+      return `${m[1]}.${m[2]}.${m[3]}`;
+    }
+    function normalizarEntradaEletrico(input) {
       const partes = input.trim().toUpperCase().split(".");
       if (partes.length === 3) {
         const prefixo = partes[0];
@@ -87,42 +124,70 @@
       }
       return input.toUpperCase().replace(/[-.+\s]/g, "");
     }
+    function detectarBanco(queryRaw) {
+      const onlyDigits = queryRaw.replace(/\D/g, '');
+      if (/^\d{10}$/.test(onlyDigits)) return 'KRONES';
+      return 'ELETRICO';
+    }
 
     document.getElementById("searchForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const raw = document.getElementById("search").value;
-      const query = normalizarEntrada(raw);
-      const results = data[query];
+      const raw = document.getElementById("search").value.trim();
+      const banco = detectarBanco(raw);
       const output = document.getElementById("results");
+      output.innerHTML = "";
 
-      if (results && results.length > 0) {
-        output.innerHTML = results.map(result => `
-          <div class="card">
-            
-    <h2 style="color:#333; font-size:20px; margin-bottom:10px;">${formatarTag(query)}</h2>
-    
-            <div class="dimomaint-box">
-              <strong>Código Dimomaint:</strong><br>
-              <span style="font-size:22px; font-weight:bold; display:block; text-align:center;">${result["dimomaint"]}</span>
-            </div>
-            <p><strong>Máquina:</strong> ${result["maquina"]}</p>
-            <p><strong>Linha:</strong> ${result["linha"]}</p>
-            <p><strong>Descrição:</strong> ${result["desc"]}</p>
-            <p><strong>Nº de peça:</strong> ${result["no"]}</p>
-          </div>
-        `).join('');
+      if (banco === 'KRONES') {
+        const ref = raw.replace(/\D/g, '');
+        if (typeof dataKronesFinal === 'undefined') {
+          output.innerHTML = '<p class="error">Banco KRONES não carregado. Verifique o arquivo <code>banco_dados_krones_completo.js</code> (ou as 40 partes).</p>';
+          return;
+        }
+        const lista = dataKronesFinal[ref];
+        if (!lista || !lista.length) {
+          output.innerHTML = '<p class="error">Referência não encontrada no KRONES.</p>';
+          return;
+        }
+        output.innerHTML = lista.map(item => {
+          const dimo = String(item.codigo).padStart(6, '0');
+          return `
+            <div class="card">
+              <div class="tag">Ref: ${ref} <span class="db-badge krones">KRONES</span></div>
+              <div class="dimomaint-box">
+                <strong>Código Dimomaint:</strong><br>
+                <span style="font-size:20px; font-weight:bold; display:block; text-align:center;">${dimo}</span>
+              </div>
+              <div><strong>Descrição:</strong> ${item.descricao}</div>
+              <div><strong>Marca:</strong> ${item.marca}</div>
+              <div><strong>Unidade:</strong> ${item.unidade}</div>
+            </div>`;
+        }).join('');
+
       } else {
-        output.innerHTML = "<p style='color:red;'>Código não encontrado.</p>";
+        const query = normalizarEntradaEletrico(raw);
+        const results = (typeof data !== 'undefined') ? data[query] : undefined;
+        if (!results || !results.length) {
+          output.innerHTML = '<p class="error">TAG não encontrada no ELÉTRICO.</p>';
+          return;
+        }
+        output.innerHTML = results.map(result => {
+          return `
+            <div class="card">
+              <div class="tag">${formatarTag(query)} <span class="db-badge eletrico">ELÉTRICO</span></div>
+              <div class="dimomaint-box">
+                <strong>Código Dimomaint:</strong><br>
+                <span style="font-size:20px; font-weight:bold; display:block; text-align:center;">${result["dimomaint"]}</span>
+              </div>
+              <div><strong>Máquina:</strong> ${result["maquina"]}</div>
+              <div><strong>Linha:</strong> ${result["linha"]}</div>
+              <div><strong>Descrição:</strong> ${result["desc"]}</div>
+              <div><strong>Nº de peça:</strong> ${result["no"]}</div>
+            </div>`;
+        }).join('');
       }
     });
-  
-    function formatarTag(tag) {
-      // Ex: TBB12220B351 → TBB1.2220.B351
-      const match = tag.match(/^([A-Z]+\d)(\d{4})([A-Z]\d{2,3})$/);
-      if (!match) return tag;
-      return `${match[1]}.${match[2]}.${match[3]}`;
-    }
-    </script>
-    
+  </script>
+
+  <footer>Desenvolvido por Carlos Soares</footer>
 </body>
 </html>
